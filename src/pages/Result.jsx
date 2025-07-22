@@ -2,14 +2,16 @@ import { useContext, useEffect, useRef, useState } from "react"
 import html2canvas from "html2canvas";
 
 import { Box, Grid, Stack, Typography } from "@mui/material"
-import { ResultContext } from "../App"
+import { IngredientContext, ResultContext } from "../App"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { motion, AnimatePresence } from "framer-motion"
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import ReplayIcon from '@mui/icons-material/Replay';
 
 export const Result = () => {
      const screenshotRef = useRef();
     const [resPage, setResPage] = useState(false)
+    const {page,setPage} = useContext(IngredientContext)
     const [currentRes, setCurrentRes] = useState()
     const { result } = useContext(ResultContext)
 
@@ -18,7 +20,11 @@ export const Result = () => {
         const c = result.find((e) => e.name === name)
         setCurrentRes(c)
     }
-
+    const handleReload = () => {
+        // setResPage(false)
+        // setPage(0)
+        window.location.reload()
+    }
     useEffect(() => {
         console.log(currentRes)
     }, [currentRes])
@@ -92,6 +98,7 @@ export const Result = () => {
                             alignItems={"flex-start"}
                             gap={"20px"}
                         >
+                            <Stack direction={"row"} gap={"10px"}>
 
                             <div
                                 className="go-back"
@@ -103,6 +110,17 @@ export const Result = () => {
                                     }}
                                 />
                             </div>
+                            <div
+                                className="go-back"
+                                onClick={() => handleReload()}
+                            >
+                                <ReplayIcon
+                                    style={{
+                                        transform: "translateX(0px)"
+                                    }}
+                                />
+                            </div>
+                                    </Stack>
                             {currentRes && (<>
                                 <div style={{ fontWeight: "bold" }}>ინგრედიენტები:</div>
                                 <Stack direction={'row'} gap={'5px'}>
